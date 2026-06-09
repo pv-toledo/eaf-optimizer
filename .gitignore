@@ -1,0 +1,27 @@
+senha supabase.txt
+# ─── Python ────────────────────────────────────────────────────────────────
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# ─── Environment Variables ─────────────────────────────────────────────────
+backend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# ─── Next.js ───────────────────────────────────────────────────────────────
+frontend/.next/
+frontend/out/
+frontend/node_modules/
+
+# ─── OS & Editors ──────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+*.log
