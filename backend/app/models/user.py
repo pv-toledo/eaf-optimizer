@@ -9,6 +9,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.database import Base
 
 from app.models.tenant import Tenant
+from backend.app.models.heat import Heat
 
 class UserRole(str, Enum):
     ADMIN = "admin"            # manages catalog, users, and full history
@@ -34,6 +35,7 @@ class User(Base):
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(server_default=func.now(), onupdate=func.now())
 
-    #relationships
+    # Relationships
 
     tenant: Mapped["Tenant"] = relationship("Tenant", back_populates="users")
+    heats: Mapped[list["Heat"]] = relationship("Heat", back_populates="user")

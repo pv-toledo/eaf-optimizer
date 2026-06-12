@@ -7,6 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.database import Base
 
 from app.models.material import Material
+from backend.app.models.heat import Heat
 from backend.app.models.user import User
 
 # Reserved ID for the system tenant.
@@ -31,7 +32,8 @@ class Tenant(Base):
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(server_default=func.now(), onupdate=func.now())
 
-    #relationships
+    # Relationships
 
     materials: Mapped[list["Material"]] = relationship("Material", back_populates="tenant")
     users: Mapped[list["User"]] = relationship("User", back_populates="tenant")
+    heats: Mapped[list["Heat"]] = relationship("Heat", back_populates="tenant")

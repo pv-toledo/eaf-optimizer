@@ -5,5 +5,6 @@
 from app.models.tenant import Tenant
 from app.models.material import Material
 from app.models.user import User
+from app.models.heat import Heat
 
-__all__ = ["Tenant", "Material", "User"]
+__all__ = ["Tenant", "Material", "User", "Heat"]
