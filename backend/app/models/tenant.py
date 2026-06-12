@@ -7,6 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.database import Base
 
 from app.models.material import Material
+from backend.app.models.user import User
 
 # Reserved ID for the system tenant.
 SYSTEM_TENANT_ID: int = 1
@@ -33,3 +34,4 @@ class Tenant(Base):
     #relationships
 
     materials: Mapped[list["Material"]] = relationship("Material", back_populates="tenant")
+    users: Mapped[list["User"]] = relationship("User", back_populates="tenant")
