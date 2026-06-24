@@ -16,26 +16,31 @@ materials = [
 ]
 
 eaf_capacity = 120
+target_yield = 0.90
 
+c_min =  1.5
+si_min = 0.50
+mn_min = 0.60
+p_limit = 0.05
+s_limit = 0.04
 cu_limit = 0.30
-
 ni_limit = 0.03
-
-c_min =  0.15
 
 prob = p.LpProblem("eaf_optmizer", p.LpMinimize)
 
 x = {m["name"]: p.LpVariable(m["name"], lowBound=0) for m in materials}
 
-prob += p.lpSum(m["custo"] * x[m["name"]] for m in materials)
+prob += p.lpSum(m["price"] * x[m["name"]] for m in materials)
 
 prob += p.lpSum(x[m["name"]] for m in materials) == eaf_capacity
 
-prob += p.lpSum(m["cu"] * x[m["name"]] for m in materials) <= cu_limit * eaf_capacity
-
-prob += p.lpSum(m["ni"] * x[m["name"]] for m in materials) <= ni_limit * eaf_capacity
-
 prob += p.lpSum(m["c"] * x[m["name"]] for m in materials) >= c_min * eaf_capacity
+prob += p.lpSum(m["si"] * x[m["name"]] for m in materials) >= si_min * eaf_capacity
+prob += p.lpSum(m["mn"] * x[m["name"]] for m in materials) >= mn_min * eaf_capacity
+prob += p.lpSum(m["p"] * x[m["name"]] for m in materials) <= p_limit * eaf_capacity
+prob += p.lpSum(m["s"] * x[m["name"]] for m in materials) <= s_limit * eaf_capacity
+prob += p.lpSum(m["cu"] * x[m["name"]] for m in materials) <= cu_limit * eaf_capacity
+prob += p.lpSum(m["ni"] * x[m["name"]] for m in materials) <= ni_limit * eaf_capacity
 
 status = prob.solve()
 
@@ -44,13 +49,22 @@ print(p.LpStatus[status])
 for m in materials: 
     print(f'{m["name"]}: {x[m["name"]].value()} kg')
 
+c_final = sum(m["c"] * x[m["name"]].value() for m in materials)/eaf_capacity
+si_final = sum(m["si"] * x[m["name"]].value() for m in materials)/eaf_capacity
+mn_final = sum(m["mn"] * x[m["name"]].value() for m in materials)/eaf_capacity
+p_final = sum(m["p"] * x[m["name"]].value() for m in materials)/eaf_capacity
+s_final = sum(m["s"] * x[m["name"]].value() for m in materials)/eaf_capacity
 cu_final = sum(m["cu"] * x[m["name"]].value() for m in materials)/eaf_capacity
 ni_final = sum(m["ni"] * x[m["name"]].value() for m in materials)/eaf_capacity
-c_final = sum(m["c"] * x[m["name"]].value() for m in materials)/eaf_capacity
 
-custo_total = sum(m["custo"] * x[m["name"]].value() for m in materials)
+custo_total = sum(m["price"] * x[m["name"]].value() for m in materials)
 
+print(f'C final: {c_final:.3f}%, C mínimo: {c_min:.3f}%')
+print(f'Si final: {si_final:.3f}%, Si mínimo: {si_min:.3f}%')
+print(f'Mn final: {mn_final:.3f}%, Mn mínimo: {mn_min:.3f}%')
+print(f'P final: {p_final:.3f}%, P limite: {p_limit:.3f}%')
+print(f'S final: {s_final:.3f}%, S limite: {s_limit:.3f}%')
 print(f'Cu final: {cu_final:.3f}%, Cu limite: {cu_limit:.3f}%')
 print(f'Ni final: {ni_final:.3f}%, Ni limite: {ni_limit:.3f}%')
-print(f'C final: {c_final:.3f}%, C mínimo: {c_min:.3f}%')
+
 print(f'Custo total: {custo_total:.3f}')
