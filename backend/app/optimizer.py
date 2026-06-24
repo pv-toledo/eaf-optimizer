@@ -44,9 +44,11 @@ prob += p.lpSum(m["ni"] * x[m["name"]] for m in materials) <= ni_limit * eaf_cap
 
 status = prob.solve()
 
-print(p.LpStatus[status])
+if p.LpStatus[status] != "Optimal":
+    print(f"Solução não encontrada: {p.LpStatus[status]}")
+    exit(1)
 
-for m in materials: 
+for m in materials:
     print(f'{m["name"]}: {x[m["name"]].value()} kg')
 
 c_final = sum(m["c"] * x[m["name"]].value() for m in materials)/eaf_capacity
