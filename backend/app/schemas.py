@@ -42,6 +42,10 @@ class Constraints(BaseModel):
     cu_max: float
     ni_max: float
 
+class OptimizationRequest(BaseModel):
+    materials: list[Material]
+    constraints: Constraints
+
 class OptimizationResult(BaseModel):
     scrap_mix: dict[str, float]
     liquid_steel: float
