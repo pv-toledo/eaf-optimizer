@@ -79,7 +79,7 @@ def optimize_charged_materials(materials: list[Material], constraints: Constrain
     return OptimizationResult(
         scrap_mix={m.name: vals[m.name] for m in materials if vals[m.name] > 0.0},
         liquid_steel=liquid_steel_ton,
-        yield_=liquid_steel_ton / constraints.loading_basket_capacity,
+        metallic_yield=liquid_steel_ton / constraints.loading_basket_capacity,
         composition=SteelComposition(
             c=c_final,
             si=si_final,
@@ -103,14 +103,14 @@ if __name__ == "__main__":
     for name, kg in result.scrap_mix.items():
         print(f"  {name}: {kg:.2f} ton")
 
-    print(f"\n--- Mass balance ---")
+    print("\n--- Mass balance ---")
     print(f"  Liquid steel: {result.liquid_steel:.2f} ton")
-    print(f"  Yield:        {result.yield_ * 100:.1f}%")
+    print(f"  Metallic yield: {result.metallic_yield * 100:.1f}%")
 
-    print(f"\n--- Composition ---")
+    print("\n--- Composition ---")
     for element, value in result.composition.model_dump().items():
         print(f"  {element}: {value:.2f}%")
 
-    print(f"\n--- Cost ---")
+    print("\n--- Cost ---")
     print(f"  Total:   US$ {result.cost.total:.2f}")
     print(f"  Per ton: US$ {result.cost.per_ton:.2f}")

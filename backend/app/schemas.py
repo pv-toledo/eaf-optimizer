@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 
+# --- Inputs ---
+
 class SteelComposition(BaseModel):
     c: float
     si: float
@@ -46,9 +48,11 @@ class OptimizationRequest(BaseModel):
     materials: list[Material]
     constraints: Constraints
 
+# --- Outputs ---
+
 class OptimizationResult(BaseModel):
     scrap_mix: dict[str, float]
     liquid_steel: float
-    yield_: float
+    metallic_yield: float
     composition: SteelComposition
     cost: Cost
