@@ -35,7 +35,14 @@ def optimize_charged_materials(materials: list[Material], constraints: Constrain
 
     prob = p.LpProblem("eaf_optimizer", p.LpMinimize)
 
-    x = {m.name: p.LpVariable(m.name, lowBound=0) for m in materials}
+    x = {
+        m.name: p.LpVariable(
+            m.name,
+            lowBound=m.min_fraction * constraints.loading_basket_capacity,
+            upBound=m.max_fraction * constraints.loading_basket_capacity,
+        )
+        for m in materials
+    }
 
     # Minimize cost
     prob += p.lpSum(m.price * x[m.name] for m in materials)

@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, model_validator
 
 # --- Inputs ---
 
@@ -32,6 +32,14 @@ class Material(BaseModel):
     cao: float
     mgo: float
     feo: float
+    min_fraction: float = Field(default=0.0, ge=0.0, le=1.0)
+    max_fraction: float = Field(default=1.0, ge=0.0, le=1.0)
+
+    @model_validator(mode="after")
+    def check_bounds(self):
+        if self.min_fraction > self.max_fraction:
+            raise ValueError(f"min_fraction ({self.min_fraction}) cannot be greater than max_fraction ({self.max_fraction})")
+        return self
 
 class Constraints(BaseModel):
     loading_basket_capacity: float
