@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 
-from backend.app.schemas import OptimizationResult, OptimizationRequest
-from backend.app.services.optimizer import optimize_charged_materials
+from app.schemas import OptimizationResult, OptimizationRequest
+from app.services.optimizer import optimize_charged_materials
 
 optimization_router = APIRouter()
 
