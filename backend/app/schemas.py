@@ -15,42 +15,44 @@ class Cost(BaseModel):
     total: float
     per_ton: float
 
+#All percentages
+
 class Material(BaseModel):
     name: str
     price: float = Field(gt=0)
-    metallic_yield: float = Field(gt=0, le=1)
-    fe: float = Field(gt=0, description="percentage (0 to 100%)")
-    c: float = Field(gt=0, description="percentage (0 to 100%)")
-    si: float = Field(gt=0, description="percentage (0 to 100%)")
-    mn: float = Field(gt=0, description="percentage (0 to 100%)")
-    p: float = Field(gt=0, description="percentage (0 to 100%)")
-    s: float = Field(gt=0, description="percentage (0 to 100%)")
-    cu: float = Field(gt=0, description="percentage (0 to 100%)")
-    ni: float = Field(gt=0, description="percentage (0 to 100%)")
-    sio2: float = Field(gt=0, description="percentage (0 to 100%)")
-    al2o3: float = Field(gt=0, description="percentage (0 to 100%)")
-    cao: float = Field(gt=0, description="percentage (0 to 100%)")
-    mgo: float = Field(gt=0, description="percentage (0 to 100%)")
-    feo: float = Field(gt=0, description="percentage (0 to 100%)")
-    min_fraction: float = Field(default=0.0, ge=0.0, le=1.0)
-    max_fraction: float = Field(default=1.0, ge=0.0, le=1.0)
+    metallic_yield: float = Field(gt=0, le=100)
+    fe: float = Field(ge=0)
+    c: float = Field(ge=0)
+    si: float = Field(ge=0)
+    mn: float = Field(ge=0)
+    p: float = Field(ge=0)
+    s: float = Field(ge=0)
+    cu: float = Field(ge=0)
+    ni: float = Field(ge=0)
+    sio2: float = Field(ge=0)
+    al2o3: float = Field(ge=0)
+    cao: float = Field(ge=0)
+    mgo: float = Field(ge=0)
+    feo: float = Field(ge=0)
+    min_pct: float = Field(default=0.0, ge=0.0, le=100.0)
+    max_pct: float = Field(default=100.0, ge=0.0, le=100.0)
 
     @model_validator(mode="after")
     def check_bounds(self):
-        if self.min_fraction > self.max_fraction:
-            raise ValueError(f"min_fraction ({self.min_fraction}) cannot be greater than max_fraction ({self.max_fraction})")
+        if self.min_pct > self.max_pct:
+            raise ValueError(f"min_pct ({self.min_pct}) cannot be greater than max_pct ({self.max_pct})")
         return self
 
 class Constraints(BaseModel):
     loading_basket_capacity: float = Field(gt=0)
-    target_yield: float = Field(gt=0, le=1, description="Fraction (0 to 1)")
-    c_min: float
-    si_min: float
-    mn_min: float
-    p_max: float
-    s_max: float
-    cu_max: float
-    ni_max: float
+    target_yield: float = Field(gt=0, le=100, description="Percentage (0 to 100%)")
+    c_min: float = Field(gt=0)
+    si_min: float = Field(gt=0)
+    mn_min: float = Field(gt=0)
+    p_max: float = Field(gt=0)
+    s_max: float = Field(gt=0)
+    cu_max: float = Field(gt=0)
+    ni_max: float = Field(gt=0)
 
 class OptimizationRequest(BaseModel):
     materials: list[Material]
@@ -68,6 +70,6 @@ class OptimizationRequest(BaseModel):
 class OptimizationResult(BaseModel):
     scrap_mix: dict[str, float]
     liquid_steel: float
-    metallic_yield: float
+    metallic_yield: float = Field(gt=0, le=100)
     composition: SteelComposition
     cost: Cost
