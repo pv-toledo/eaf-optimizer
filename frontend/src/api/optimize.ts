@@ -1,5 +1,6 @@
 import { apiRequest, ApiResponse } from "@/api/client";
-import { Material, Constraints } from "@/types/optimizer";
+import { Constraints, Material } from "@/types/domain";
+
 
 
 export type OptimizationRequest = {
