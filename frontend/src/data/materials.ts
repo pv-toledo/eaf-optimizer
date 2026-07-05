@@ -1,4 +1,5 @@
-import { Material } from "@/types/optimizer";
+import { Material } from "@/types/domain";
+
 
 export const materials: Material[] = [
     {"name": "Pig iron",                   "price": 2500, "fe": 94.56, "c": 3.8,  "si": 1.00, "mn": 0.50, "p": 0.10, "s": 0.04, "cu": 0.01, "ni": 0.03, "sio2": 0.00, "al2o3": 0.00, "cao": 0.00, "mgo": 0.00, "feo": 0.00, "metallic_yield": 94.0 },
