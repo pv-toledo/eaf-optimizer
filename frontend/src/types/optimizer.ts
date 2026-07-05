@@ -41,31 +41,3 @@ export type Constraints = {
     ni_max: number;
 }
 
-export type SteelComposition = {
-    c: number;
-    si: number;
-    mn: number;
-    p: number;
-    s: number;
-    cu: number;
-    ni: number;
-}
-
-export type OptimizationRequest = {
-    materials: Material[];
-    constraints: Constraints;
-}
-
-export type Cost = {
-    total: number;
-    per_ton: number;
-}
-
-export type OptimizationResult = {
-    scrap_mix: Record<string, number>; //materialName: tons
-    liquid_steel: number;
-    metallic_yield: number;
-    composition: SteelComposition;
-    cost: Cost;
-}
-
