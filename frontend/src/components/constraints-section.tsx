@@ -9,37 +9,37 @@ type ConstraintsSectionProps = {
 export function ConstraintsSection ({control}: ConstraintsSectionProps) {
     return (
         <div className="rounded-xl border bg-card p-4">
-            <p className="mb-3 text-sm font-medium text-muted-foreground">Forno</p>
+            <p className="mb-3 text-sm font-medium text-muted-foreground">Electric Arc Furnace</p>
             <div className="grid grid-cols-2 gap-3">
                 <NumberField
                     control={control}
                     name="constraints.loading_basket_capacity"
-                    label="Capacidade do cesto (ton)"
+                    label="Loading basket capacity (ton)"
                 />
                 <NumberField
                     control={control}
                     name="constraints.target_yield"
-                    label="Rendimento metálico alvo (%)"
+                    label="Target metallic yield (%)"
                 />
             </div>
 
             <p className="mb-3 mt-4 text-sm font-medium text-muted-foreground">
-                Composição mínima
+                Minimum composition
             </p>
             <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
-                <NumberField control={control} name="constraints.c_min" label="C mínimo (%)" />
-                <NumberField control={control} name="constraints.si_min" label="Si mínimo (%)" />
-                <NumberField control={control} name="constraints.mn_min" label="Mn mínimo (%)" />
+                <NumberField control={control} name="constraints.c_min" label="Min C (%)" />
+                <NumberField control={control} name="constraints.si_min" label="Min Si (%)" />
+                <NumberField control={control} name="constraints.mn_min" label="Min Mn (%)" />
             </div>
 
             <p className="mb-3 mt-4 text-sm font-medium text-muted-foreground">
-                Composição máxima
+                Maximum composition
             </p>
             <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-                <NumberField control={control} name="constraints.p_max" label="P máximo (%)" />
-                <NumberField control={control} name="constraints.s_max" label="S máximo (%)" />
-                <NumberField control={control} name="constraints.cu_max" label="Cu máximo (%)" />
-                <NumberField control={control} name="constraints.ni_max" label="Ni máximo (%)" />
+                <NumberField control={control} name="constraints.p_max" label="Max P (%)" />
+                <NumberField control={control} name="constraints.s_max" label="Max S (%)" />
+                <NumberField control={control} name="constraints.cu_max" label="Max Cu (%)" />
+                <NumberField control={control} name="constraints.ni_max" label="Max Ni (%)" />
             </div>
         </div>
     )

@@ -70,13 +70,13 @@ export function OptimizationResultPanel({ state }: { state: OptimizationPanelSta
         <div className="rounded-xl border bg-card p-4">
             <div className="mb-4 grid grid-cols-2 gap-2">
                 <div className="rounded-md bg-muted p-3">
-                    <p className="text-xs text-muted-foreground">Custo total</p>
+                    <p className="text-xs text-muted-foreground">Total cost</p>
                     <p className="text-lg font-medium">
                         R$ {result.cost.total.toLocaleString("pt-BR")}
                     </p>
                 </div>
                 <div className="rounded-md bg-muted p-3">
-                    <p className="text-xs text-muted-foreground">Custo / ton</p>
+                    <p className="text-xs text-muted-foreground">Cost per ton</p>
                     <p className="text-lg font-medium">
                         R$ {result.cost.per_ton.toLocaleString("pt-BR")}
                     </p>
@@ -84,7 +84,7 @@ export function OptimizationResultPanel({ state }: { state: OptimizationPanelSta
             </div>
 
             <p className="mb-2 text-xs font-medium text-muted-foreground">
-                Mistura ({result.liquid_steel.toFixed(1)} ton de aço líquido)
+                Charge ({result.liquid_steel.toFixed(1)} tons of liquid steel)
             </p>
             <div className="mb-4 flex flex-col gap-1.5">
                 {scrapEntries.map(([name, tons]) => (
@@ -96,16 +96,16 @@ export function OptimizationResultPanel({ state }: { state: OptimizationPanelSta
             </div>
 
             <p className="mb-2 text-xs font-medium text-muted-foreground">
-                Composição do aço líquido (%)
+                Liquid steel composition (%)
             </p>
             <div className="grid grid-cols-4 gap-2 text-xs">
-                <CompositionValue label="C" value={result.composition.c} />
-                <CompositionValue label="Si" value={result.composition.si} />
-                <CompositionValue label="Mn" value={result.composition.mn} />
-                <CompositionValue label="P" value={result.composition.p} />
-                <CompositionValue label="S" value={result.composition.s} />
-                <CompositionValue label="Cu" value={result.composition.cu} />
-                <CompositionValue label="Ni" value={result.composition.ni} />
+                <CompositionValue label="C: " value={result.composition.c} />
+                <CompositionValue label="Si: " value={result.composition.si} />
+                <CompositionValue label="Mn: " value={result.composition.mn} />
+                <CompositionValue label="P: " value={result.composition.p} />
+                <CompositionValue label="S: " value={result.composition.s} />
+                <CompositionValue label="Cu: " value={result.composition.cu} />
+                <CompositionValue label="Ni: " value={result.composition.ni} />
             </div>
         </div>
     );

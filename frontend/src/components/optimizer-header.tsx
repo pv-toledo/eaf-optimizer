@@ -9,8 +9,7 @@ export function OptimizerHeader() {
             <div>
                 <h1 className="text-xl font-medium">EAF Optimizer</h1>
                 <p className="mt-1 text-sm text-muted-foreground">
-                    Encontra a mistura de sucata de menor custo para um forno elétrico a arco,
-                    respeitando rendimento metálico e composição química.
+                    Find the lowest-cost scrap mix while meeting strict chemistry and yield targets
                 </p>
             </div>
             <div className="flex gap-3">

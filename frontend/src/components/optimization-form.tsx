@@ -13,7 +13,7 @@ import { Loader2 } from "lucide-react";
 export function OptimizationForm() {
   const form = useForm<OptimizationFormInput, unknown, OptimizationFormData>({
     resolver: zodResolver(formSchema),
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: {
       constraints: {
         loading_basket_capacity: 120,
@@ -39,29 +39,39 @@ export function OptimizationForm() {
     name: "materialBounds",
   });
 
-  const { isSubmitting } = form.formState
+  const { isSubmitting, isValid } = form.formState
+
+  const onSubmit = async (data:any) => {
+  try {
+    // Simula a chamada da API (ex: 2 segundos)
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    
+    // Sucesso
+    console.log("Resposta da API simulada com sucesso!", data);
+    
+  } catch (error) {
+    // Tratamento de erro simulado
+    console.error("Erro na API", error);
+  }
+};
 
   return (
     <form
-      onSubmit={form.handleSubmit((data) => console.log(data))}
+      onSubmit={form.handleSubmit(onSubmit)}
       className="mx-auto grid max-w-6xl grid-cols-1 gap-6 lg:grid-cols-[1fr_400px]"
     >
       <div className="flex flex-col gap-6">
         <ConstraintsSection control={form.control} />
         <MaterialBoundsList control={form.control} fields={fields} materials={defaultMaterials} />
-        <Button type="submit" disabled={isSubmitting} className="w-full sm:w-auto">{isSubmitting ? (
+        <Button type="submit" disabled={isSubmitting || !isValid} className="w-full sm:w-auto hover:cursor-pointer">{isSubmitting ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin" />
-            Otimizando…
+            Optimizing...
           </>
         ) : (
-          "Otimizar carga"
+          "Optimize charge"
         )}</Button>
       </div>
-
-      {/* <aside className="lg:sticky lg:top-8 lg:self-start">
-        <p className="text-sm text-muted-foreground">Resultado aparece aqui</p>
-      </aside> */}
 
       <OptimizationResultPanel state={{
         status: "success",

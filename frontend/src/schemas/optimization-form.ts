@@ -19,19 +19,6 @@ function decimalNumber(schema: z.ZodNumber) {
     return parsed
   }).pipe(schema)
 }
-// function decimalNumber<T extends z.ZodTypeAny>(schema: T) {
-//   return z.preprocess((val) => {
-//     if (typeof val !== "string") return val
-
-//     const trimmed = val.trim()
-//     if (trimmed === "") return undefined
-
-//     const normalized = trimmed.replace(",", ".")
-//     const parsed = Number(normalized)
-
-//     return Number.isNaN(parsed) ? trimmed : parsed
-//   }, schema)
-// }
 
 export const constraintsSchema = z.object({
   loading_basket_capacity: decimalNumber(z
@@ -68,7 +55,7 @@ export const materialBoundsSchema = z
   })
   .refine((data) => data.min_pct <= data.max_pct, {
     message:
-      "Minimum percentage must be less than or equal to maximum percentage",
+      "Min (%) must be less than or equal to Max (%)",
     path: ["max_pct"],
   });
 

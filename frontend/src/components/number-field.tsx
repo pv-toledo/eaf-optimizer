@@ -7,8 +7,8 @@ import { OptimizationFormInput } from "@/schemas/optimization-form";
 
 type NumericFieldPath = {
     [K in FieldPath<OptimizationFormInput>]: FieldPathValue<OptimizationFormInput, K> extends string | number
-        ? K
-        : never;
+    ? K
+    : never;
 }[FieldPath<OptimizationFormInput>];
 
 type NumberFieldProps = {
@@ -24,7 +24,7 @@ export function NumberField({ control, name, label }: NumberFieldProps) {
             name={name}
             render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
+                    <FieldLabel htmlFor={field.name} className="text-sm">{label}</FieldLabel>
                     <Input
                         id={field.name}
                         type="text"
@@ -33,8 +33,13 @@ export function NumberField({ control, name, label }: NumberFieldProps) {
                         value={field.value ?? ""}
                         onChange={(e) => field.onChange(e.target.value)}
                         aria-invalid={fieldState.invalid}
+                        className="text-xs md:text-sm"
                     />
-                    <FieldError errors={fieldState.error ? [fieldState.error] : undefined} />
+                    <div className="min-h-[2rem]">
+                        {fieldState.error && (
+                            <FieldError errors={[fieldState.error]} className="text-xs" />
+                        )}
+                    </div>
                 </Field>
             )}
         />
