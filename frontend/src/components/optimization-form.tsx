@@ -1,12 +1,11 @@
 "use client";
 
-import { defaultConstraints, defaultMaterials } from "@/data/materials";
+import { defaultMaterials } from "@/data/materials";
 import { formSchema, OptimizationFormData, OptimizationFormInput } from "@/schemas/optimization-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
-import { Field, FieldDescription, FieldError, FieldLabel } from "./ui/field";
-import { Input } from "./ui/input";
+import { useFieldArray, useForm } from "react-hook-form";
 import { Button } from "./ui/button";
+import { NumberField } from "./number-field";
 
 export function OptimizationForm() {
   const form = useForm<OptimizationFormInput, unknown, OptimizationFormData>({
@@ -39,161 +38,68 @@ export function OptimizationForm() {
 
   return (
     <form onSubmit={form.handleSubmit((data) => console.log(data))} className="space-y-4">
-      <Controller
+      <NumberField
         control={form.control}
         name="constraints.loading_basket_capacity"
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor={field.name}>Loading Basket Capacity</FieldLabel>
-            <Input
-              id={field.name}
-              type="number"
-              {...field}
-              value={Number.isNaN(field.value) ? "" : field.value}
-              onChange={(e) => field.onChange(Number(e.target.valueAsNumber))}
-              aria-invalid = {fieldState.invalid}
-            />
-            <FieldError errors={fieldState.error ? [fieldState.error] : undefined} />
-            
-          </Field>
-        )}
+        label="Capacidade do cesto (ton)"
       />
-      <Controller
+      <NumberField
         control={form.control}
         name="constraints.target_yield"
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor={field.name}>Target Yield (%)</FieldLabel>
-            <Input
-              id={field.name}
-              type="number"
-              {...field}
-              value={Number.isNaN(field.value) ? "" : field.value}
-              onChange={(e) => field.onChange(Number(e.target.valueAsNumber))}
-            />
-            <FieldError errors={fieldState.error ? [fieldState.error] : undefined} />
-          </Field>
-        )}
+        label="Rendimento metálico alvo (%)"
       />
-      <Controller
+      <NumberField
         control={form.control}
         name="constraints.c_min"
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor={field.name}>Minimum C (%)</FieldLabel>
-            <Input
-              id={field.name}
-              type="number"
-              {...field}
-              value={Number.isNaN(field.value) ? "" : field.value}
-              onChange={(e) => field.onChange(Number(e.target.valueAsNumber))}
-            />
-            <FieldError errors={fieldState.error ? [fieldState.error] : undefined} />
-          </Field>
-        )}
+        label="C mínimo (%)"
       />
-      <Controller
-        control={form.control}
-        name="constraints.mn_min"
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor={field.name}>Minimum Mn (%)</FieldLabel>
-            <Input
-              id={field.name}
-              type="number"
-              {...field}
-              value={Number.isNaN(field.value) ? "" : field.value}
-              onChange={(e) => field.onChange(Number(e.target.valueAsNumber))}
-            />
-            <FieldError errors={fieldState.error ? [fieldState.error] : undefined} />
-          </Field>
-        )}
-      />
-      <Controller
+      <NumberField
         control={form.control}
         name="constraints.si_min"
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor={field.name}>Minimum Si (%)</FieldLabel>
-            <Input
-              id={field.name}
-              type="number"
-              {...field}
-              value={Number.isNaN(field.value) ? "" : field.value}
-              onChange={(e) => field.onChange(Number(e.target.valueAsNumber))}
-            />
-            <FieldError errors={fieldState.error ? [fieldState.error] : undefined} />
-          </Field>
-        )}
+        label="Si mínimo (%)"
       />
-      <Controller
+      <NumberField
+        control={form.control}
+        name="constraints.mn_min"
+        label="Mn mínimo (%)"
+      />
+      <NumberField
         control={form.control}
         name="constraints.p_max"
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor={field.name}>Maximum P (%)</FieldLabel>
-            <Input
-              id={field.name}
-              type="number"
-              {...field}
-              value={Number.isNaN(field.value) ? "" : field.value}
-              onChange={(e) => field.onChange(Number(e.target.valueAsNumber))}
-            />
-            <FieldError errors={fieldState.error ? [fieldState.error] : undefined} />
-          </Field>
-        )}
+        label="P máximo (%)"
       />
-      <Controller
+      <NumberField
         control={form.control}
         name="constraints.s_max"
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor={field.name}>Maximum S (%)</FieldLabel>
-            <Input
-              id={field.name}
-              type="number"
-              {...field}
-              value={Number.isNaN(field.value) ? "" : field.value}
-              onChange={(e) => field.onChange(Number(e.target.valueAsNumber))}
-            />
-            <FieldError errors={fieldState.error ? [fieldState.error] : undefined} />
-          </Field>
-        )}
+        label="S máximo (%)"
       />
-      <Controller
+      <NumberField
         control={form.control}
         name="constraints.cu_max"
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor={field.name}>Maximum Cu (%)</FieldLabel>
-            <Input
-              id={field.name}
-              type="number"
-              {...field}
-              value={Number.isNaN(field.value) ? "" : field.value}
-              onChange={(e) => field.onChange(Number(e.target.valueAsNumber))}
-            />
-            <FieldError errors={fieldState.error ? [fieldState.error] : undefined} />
-          </Field>
-        )}
+        label="Cu máximo (%)"
       />
-      <Controller
+      <NumberField
         control={form.control}
         name="constraints.ni_max"
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor={field.name}>Maximum Ni (%)</FieldLabel>
-            <Input
-              id={field.name}
-              type="number"
-              {...field}
-              value={Number.isNaN(field.value) ? "" : field.value}
-              onChange={(e) => field.onChange(Number(e.target.valueAsNumber))}
-            />
-            <FieldError errors={fieldState.error ? [fieldState.error] : undefined} />
-          </Field>
-        )}
+        label="Ni máximo (%)"
       />
+
+      {fields.map((fieldItem, index) => (
+        <div key={fieldItem.id}>
+          <p>{fieldItem.name}</p>
+          <NumberField
+            control={form.control}
+            name={`materialBounds.${index}.min_pct`}
+            label="Mínimo (%)"
+          />
+          <NumberField
+            control={form.control}
+            name={`materialBounds.${index}.max_pct`}
+            label="Máximo (%)"
+          />
+        </div>
+      ))}
+      
       <Button type="submit">Submeter</Button>
 
     </form>
