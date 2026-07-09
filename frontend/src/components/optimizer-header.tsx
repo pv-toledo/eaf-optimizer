@@ -1,6 +1,7 @@
 // src/components/optimizer-header.tsx
 
 import { Moon, Sun } from "lucide-react";
+import { FaGithub, FaLinkedin } from "react-icons/fa6";
 
 export function OptimizerHeader() {
     return (
@@ -20,7 +21,7 @@ export function OptimizerHeader() {
                     aria-label="Perfil no LinkedIn"
                     className="text-muted-foreground transition-colors hover:text-foreground"
                 >
-                    <Sun className="h-5 w-5" />
+                    <FaLinkedin className="h-5 w-5" />
                 </a>
                 <a
                     href="https://github.com/pv-toledo/eaf-optimizer"
@@ -29,7 +30,7 @@ export function OptimizerHeader() {
                     aria-label="Perfil no GitHub"
                     className="text-muted-foreground transition-colors hover:text-foreground"
                 >
-                    <Moon className="h-5 w-5" />
+                    <FaGithub className="h-5 w-5" />
                 </a>
             </div>
         </header>
