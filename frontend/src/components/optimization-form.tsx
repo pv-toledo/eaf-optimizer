@@ -5,7 +5,8 @@ import { formSchema, OptimizationFormData, OptimizationFormInput } from "@/schem
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { Button } from "./ui/button";
-import { NumberField } from "./number-field";
+import { ConstraintsSection } from "./constraints-section";
+import { MaterialBoundsList } from "./material-bounds-list";
 
 export function OptimizationForm() {
   const form = useForm<OptimizationFormInput, unknown, OptimizationFormData>({
@@ -37,71 +38,19 @@ export function OptimizationForm() {
   });
 
   return (
-    <form onSubmit={form.handleSubmit((data) => console.log(data))} className="space-y-4">
-      <NumberField
-        control={form.control}
-        name="constraints.loading_basket_capacity"
-        label="Capacidade do cesto (ton)"
-      />
-      <NumberField
-        control={form.control}
-        name="constraints.target_yield"
-        label="Rendimento metálico alvo (%)"
-      />
-      <NumberField
-        control={form.control}
-        name="constraints.c_min"
-        label="C mínimo (%)"
-      />
-      <NumberField
-        control={form.control}
-        name="constraints.si_min"
-        label="Si mínimo (%)"
-      />
-      <NumberField
-        control={form.control}
-        name="constraints.mn_min"
-        label="Mn mínimo (%)"
-      />
-      <NumberField
-        control={form.control}
-        name="constraints.p_max"
-        label="P máximo (%)"
-      />
-      <NumberField
-        control={form.control}
-        name="constraints.s_max"
-        label="S máximo (%)"
-      />
-      <NumberField
-        control={form.control}
-        name="constraints.cu_max"
-        label="Cu máximo (%)"
-      />
-      <NumberField
-        control={form.control}
-        name="constraints.ni_max"
-        label="Ni máximo (%)"
-      />
+    <form
+      onSubmit={form.handleSubmit((data) => console.log(data))}
+      className="mx-auto grid max-w-6xl grid-cols-1 gap-6 lg:grid-cols-[1fr_400px]"
+    >
+      <div className="flex flex-col gap-6">
+        <ConstraintsSection control={form.control} />
+        <MaterialBoundsList control={form.control} fields={fields} materials={defaultMaterials} />
+        <Button type="submit">Otimizar carga</Button>
+      </div>
 
-      {fields.map((fieldItem, index) => (
-        <div key={fieldItem.id}>
-          <p>{fieldItem.name}</p>
-          <NumberField
-            control={form.control}
-            name={`materialBounds.${index}.min_pct`}
-            label="Mínimo (%)"
-          />
-          <NumberField
-            control={form.control}
-            name={`materialBounds.${index}.max_pct`}
-            label="Máximo (%)"
-          />
-        </div>
-      ))}
-      
-      <Button type="submit">Submeter</Button>
-
+      <aside className="lg:sticky lg:top-8 lg:self-start">
+        <p className="text-sm text-muted-foreground">Resultado aparece aqui</p>
+      </aside>
     </form>
   )
 }
