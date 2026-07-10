@@ -9,6 +9,7 @@ import { ConstraintsSection } from "./constraints-section";
 import { MaterialBoundsList } from "./material-bounds-list";
 import { OptimizationResultPanel } from "./optimization-result-panel";
 import { Loader2 } from "lucide-react";
+import { useEffect } from "react";
 
 export function OptimizationForm() {
   const form = useForm<OptimizationFormInput, unknown, OptimizationFormData>({
@@ -34,6 +35,10 @@ export function OptimizationForm() {
     },
   });
 
+  useEffect (() => {
+    form.trigger()
+  }, [form])
+
   const { fields } = useFieldArray({
     control: form.control,
     name: "materialBounds",
@@ -54,6 +59,8 @@ export function OptimizationForm() {
     console.error("Erro na API", error);
   }
 };
+
+console.log(form.formState.errors)
 
   return (
     <form

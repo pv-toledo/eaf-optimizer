@@ -6,13 +6,13 @@ function decimalNumber(schema: z.ZodNumber) {
 
     const trimmed = val.trim()
     if (trimmed === "") {
-      ctx.addIssue({code: "custom", message: "Required field"})
+      ctx.addIssue({ code: "custom", message: "Required field" })
       return z.NEVER
     }
 
     const parsed = Number(trimmed.replace(",", "."))
     if (Number.isNaN(parsed)) {
-      ctx.addIssue({code: "custom", message: "Insert a valid number"})
+      ctx.addIssue({ code: "custom", message: "Insert a valid number" })
       return z.NEVER
     }
 
@@ -53,10 +53,12 @@ export const materialBoundsSchema = z
       .min(0, "Maximum percentage must be greater than or equal to 0")
       .max(100, "Maximum percentage must be less than or equal to 100")),
   })
-  .refine((data) => data.min_pct <= data.max_pct, {
-    message:
-      "Min (%) must be less than or equal to Max (%)",
-    path: ["max_pct"],
+  .superRefine((data, ctx) => {
+    if (data.min_pct >= data.max_pct) {
+      const message = "Min (%) must be less than or equal to Max (%)";
+      ctx.addIssue({ code: "custom", message, path: ["min_pct"] });
+      ctx.addIssue({ code: "custom", message, path: ["max_pct"] });
+    }
   });
 
 export type MaterialBoundsFormData = z.infer<typeof materialBoundsSchema>;
