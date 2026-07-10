@@ -1,4 +1,3 @@
-// src/components/optimization-result-panel.tsx
 import { FlaskConical, CircleAlert } from "lucide-react";
 import { CompositionValue } from "./composition-value";
 import { OptimizationResult } from "@/api/optimize";

@@ -35,7 +35,7 @@ export function OptimizationForm() {
     },
   });
 
-  useEffect (() => {
+  useEffect(() => {
     form.trigger()
   }, [form])
 
@@ -46,21 +46,21 @@ export function OptimizationForm() {
 
   const { isSubmitting, isValid } = form.formState
 
-  const onSubmit = async (data:any) => {
-  try {
-    // Simula a chamada da API (ex: 2 segundos)
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    
-    // Sucesso
-    console.log("Resposta da API simulada com sucesso!", data);
-    
-  } catch (error) {
-    // Tratamento de erro simulado
-    console.error("Erro na API", error);
-  }
-};
+  const onSubmit = async (data: any) => {
+    try {
+      // Simula a chamada da API (ex: 2 segundos)
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
-console.log(form.formState.errors)
+      // Sucesso
+      console.log("Resposta da API simulada com sucesso!", data);
+
+    } catch (error) {
+      // Tratamento de erro simulado
+      console.error("Erro na API", error);
+    }
+  };
+
+  console.log(form.formState.errors)
 
   return (
     <form
@@ -80,31 +80,35 @@ console.log(form.formState.errors)
         )}</Button>
       </div>
 
-      <OptimizationResultPanel state={{
-        status: "success",
-        result: {
-          scrap_mix: {
-            "Sucata pesada": 45.2,
-            "Estamparia": 30.8,
-            "Ferro-gusa": 12.5,
+      <aside className="lg:sticky lg:top-8 lg:self-start">
+        <OptimizationResultPanel state={{
+          status: "success",
+          result: {
+            scrap_mix: {
+              "Sucata pesada": 45.2,
+              "Estamparia": 30.8,
+              "Ferro-gusa": 12.5,
+            },
+            liquid_steel: 82.3,
+            metallic_yield: 91.4,
+            composition: {
+              c: 0.18,
+              si: 0.02,
+              mn: 0.35,
+              p: 0.021,
+              s: 0.018,
+              cu: 0.09,
+              ni: 0.04,
+            },
+            cost: {
+              total: 187450,
+              per_ton: 2277.5,
+            },
           },
-          liquid_steel: 82.3,
-          metallic_yield: 91.4,
-          composition: {
-            c: 0.18,
-            si: 0.02,
-            mn: 0.35,
-            p: 0.021,
-            s: 0.018,
-            cu: 0.09,
-            ni: 0.04,
-          },
-          cost: {
-            total: 187450,
-            per_ton: 2277.5,
-          },
-        },
-      }} />
+        }} />
+      </aside>
+
+
     </form>
   )
 }
