@@ -10,6 +10,7 @@ import { MaterialBoundsList } from "./material-bounds-list";
 import { OptimizationResultPanel } from "./optimization-result-panel";
 import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
+import { formatElementPercent, formatOxidePercent } from "@/lib/format";
 
 export function OptimizationForm() {
   const form = useForm<OptimizationFormInput, unknown, OptimizationFormData>({
@@ -17,15 +18,15 @@ export function OptimizationForm() {
     mode: "onChange",
     defaultValues: {
       constraints: {
-        loading_basket_capacity: 120,
-        target_yield: 85,
-        c_min: 0.550,
-        si_min: 0.150,
-        mn_min: 0.400,
-        p_max: 0.050,
-        s_max: 0.060,
-        cu_max: 0.300,
-        ni_max: 0.150,
+        loading_basket_capacity: formatOxidePercent(120),
+        target_yield: formatOxidePercent(85),
+        c_min: formatElementPercent(0.550),
+        si_min: formatElementPercent(0.150),
+        mn_min: formatElementPercent(0.400),
+        p_max: formatElementPercent(0.050),
+        s_max: formatElementPercent(0.060),
+        cu_max: formatElementPercent(0.300),
+        ni_max: formatElementPercent(0.150),
       },
       materialBounds: defaultMaterials.map((m) => ({
         name: m.name,
