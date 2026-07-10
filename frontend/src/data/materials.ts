@@ -9,7 +9,7 @@ export const defaultMaterials: Material[] = [
     { "name": "Turnings", "price": 1600, "fe": 97.25, "c": 0.40, "si": 0.20, "mn": 1.10, "p": 0.05, "s": 0.04, "cu": 0.10, "ni": 0.37, "sio2": 0.00, "al2o3": 0.00, "cao": 0.00, "mgo": 0.00, "feo": 0.10, "metallic_yield": 82.0 },
     { "name": "Automotive stamping bundles", "price": 2200, "fe": 97.90, "c": 0.05, "si": 0.22, "mn": 0.43, "p": 0.02, "s": 0.01, "cu": 0.10, "ni": 0.03, "sio2": 1.30, "al2o3": 0.00, "cao": 0.00, "mgo": 0.00, "feo": 0.10, "metallic_yield": 92.0 },
     { "name": "Shredded scrap", "price": 1500, "fe": 91.50, "c": 0.28, "si": 0.38, "mn": 0.60, "p": 0.03, "s": 0.04, "cu": 0.30, "ni": 0.08, "sio2": 1.30, "al2o3": 0.00, "cao": 0.00, "mgo": 0.00, "feo": 0.22, "metallic_yield": 91.0 },
-    { "name": "HMS (Heavy Melting Steel)", "price": 1900, "fe": 92.00, "c": 0.33, "si": 0.28, "mn": 1.00, "p": 0.04, "s": 0.05, "cu": 0.20, "ni": 0.15, "sio2": 1.30, "al2o3": 0.00, "cao": 0.00, "mgo": 0.00, "feo": 0.25, "metallic_yield": 88.0 },
+    { "name": "HMS (Heavy Melting Steel)", "price": 1900, "fe": 92.00, "c": 0.33, "si": 0.28, "mn": 1.00, "p": 0.03, "s": 0.05, "cu": 0.20, "ni": 0.15, "sio2": 1.30, "al2o3": 0.00, "cao": 0.00, "mgo": 0.00, "feo": 0.25, "metallic_yield": 88.0 },
 ]
 
 export const defaultConstraints = [

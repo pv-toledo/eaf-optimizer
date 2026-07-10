@@ -5,6 +5,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collap
 import { ChevronDown } from "lucide-react"
 import { NumberField } from "./number-field"
 import { CompositionValue } from "./composition-value"
+import { formatElementPercent, formatOxidePercent } from "@/lib/format"
 
 type MaterialBoundsRowProps = {
     control: Control<OptimizationFormInput>
@@ -48,25 +49,25 @@ export function MaterialBoundsRow({ control, index, material }: MaterialBoundsRo
                     Chemical composition (%)
                 </p>
                 <div className="mb-4 grid grid-cols-4 gap-2 text-xs">
-                    <CompositionValue label="Fe" value={material.fe} />
-                    <CompositionValue label="C" value={material.c} />
-                    <CompositionValue label="Si" value={material.si} />
-                    <CompositionValue label="Mn" value={material.mn} />
-                    <CompositionValue label="P" value={material.p} />
-                    <CompositionValue label="S" value={material.s} />
-                    <CompositionValue label="Cu" value={material.cu} />
-                    <CompositionValue label="Ni" value={material.ni} />
+                    <CompositionValue label="Fe" value={formatElementPercent(material.fe)} />
+                    <CompositionValue label="C" value={formatElementPercent(material.c)} />
+                    <CompositionValue label="Si" value={formatElementPercent(material.si)} />
+                    <CompositionValue label="Mn" value={formatElementPercent(material.mn)} />
+                    <CompositionValue label="P" value={formatElementPercent(material.p)} />
+                    <CompositionValue label="S" value={formatElementPercent(material.s)} />
+                    <CompositionValue label="Cu" value={formatElementPercent(material.cu)} />
+                    <CompositionValue label="Ni" value={formatElementPercent(material.ni)} />
                 </div>
 
                 <p className="mb-2 text-xs font-medium text-muted-foreground">
                     Oxides (%)
                 </p>
                 <div className="grid grid-cols-4 gap-2 text-xs">
-                    <CompositionValue label="SiO₂" value={material.sio2} />
-                    <CompositionValue label="Al₂O₃" value={material.al2o3} />
-                    <CompositionValue label="CaO" value={material.cao} />
-                    <CompositionValue label="MgO" value={material.mgo} />
-                    <CompositionValue label="FeO" value={material.feo} />
+                    <CompositionValue label="SiO₂" value={formatOxidePercent(material.sio2)} />
+                    <CompositionValue label="Al₂O₃" value={formatOxidePercent(material.al2o3)} />
+                    <CompositionValue label="CaO" value={formatOxidePercent(material.cao)} />
+                    <CompositionValue label="MgO" value={formatOxidePercent(material.mgo)} />
+                    <CompositionValue label="FeO" value={formatOxidePercent(material.feo)} />
                 </div>
             </CollapsibleContent>
         </Collapsible>

@@ -1,6 +1,7 @@
 import { FlaskConical, CircleAlert } from "lucide-react";
 import { CompositionValue } from "./composition-value";
 import { OptimizationResult } from "@/api/optimize";
+import { formatElementPercent } from "@/lib/format";
 
 type OptimizationPanelState =
     | { status: "idle" }
@@ -98,13 +99,13 @@ export function OptimizationResultPanel({ state }: { state: OptimizationPanelSta
                 Liquid steel composition (%)
             </p>
             <div className="grid grid-cols-4 gap-2 text-xs">
-                <CompositionValue label="C: " value={result.composition.c} />
-                <CompositionValue label="Si: " value={result.composition.si} />
-                <CompositionValue label="Mn: " value={result.composition.mn} />
-                <CompositionValue label="P: " value={result.composition.p} />
-                <CompositionValue label="S: " value={result.composition.s} />
-                <CompositionValue label="Cu: " value={result.composition.cu} />
-                <CompositionValue label="Ni: " value={result.composition.ni} />
+                <CompositionValue label="C: " value={formatElementPercent(result.composition.c)} />
+                <CompositionValue label="Si: " value={formatElementPercent(result.composition.si)} />
+                <CompositionValue label="Mn: " value={formatElementPercent(result.composition.mn)} />
+                <CompositionValue label="P: " value={formatElementPercent(result.composition.p)} />
+                <CompositionValue label="S: " value={formatElementPercent(result.composition.s)} />
+                <CompositionValue label="Cu: " value={formatElementPercent(result.composition.cu)} />
+                <CompositionValue label="Ni: " value={formatElementPercent(result.composition.ni)} />
             </div>
         </div>
     );

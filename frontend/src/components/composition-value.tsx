@@ -1,6 +1,6 @@
 type CompositionValueProps = {
     label: string;
-    value: number;
+    value: string;
 };
 
 export function CompositionValue({ label, value }: CompositionValueProps) {
