@@ -1,31 +1,6 @@
 import pulp as p
 from app.schemas import Material, Constraints, OptimizationResult, SteelComposition, Cost
 
-_raw_materials = [
-    {"name": "Pig iron",                   "price": 2500, "fe": 94.56, "c": 3.8,  "si": 1.00, "mn": 0.50, "p": 0.10, "s": 0.04, "cu": 0.01, "ni": 0.03, "sio2": 0.00, "al2o3": 0.00, "cao": 0.00, "mgo": 0.00, "feo": 0.00, "metallic_yield": 94.0 },
-    {"name": "HBI (hot briquetted iron)",  "price": 2000, "fe": 89.45, "c": 2.10, "si": 0.12, "mn": 0.08, "p": 0.04, "s": 0.01, "cu": 0.01, "ni": 0.01, "sio2": 1.50, "al2o3": 0.40, "cao": 0.30, "mgo": 0.50, "feo": 5.50, "metallic_yield": 90.0 },
-    {"name": "Cast iron",                  "price": 1500, "fe": 93.80, "c": 3.50, "si": 2.20, "mn": 0.45, "p": 0.07, "s": 0.05, "cu": 0.15, "ni": 0.01, "sio2": 0.00, "al2o3": 0.00, "cao": 0.00, "mgo": 0.00, "feo": 0.00, "metallic_yield": 88.0 },
-    {"name": "Obsolete scrap",             "price": 1000, "fe": 98.37, "c": 0.18, "si": 0.26, "mn": 0.55, "p": 0.05, "s": 0.10, "cu": 0.30, "ni": 0.05, "sio2": 0.00, "al2o3": 0.00, "cao": 0.00, "mgo": 0.00, "feo": 0.18, "metallic_yield": 85.0 },
-    {"name": "Turnings",                   "price": 1600, "fe": 97.25, "c": 0.40, "si": 0.20, "mn": 1.10, "p": 0.05, "s": 0.04, "cu": 0.10, "ni": 0.37, "sio2": 0.00, "al2o3": 0.00, "cao": 0.00, "mgo": 0.00, "feo": 0.10, "metallic_yield": 82.0 },
-    {"name": "Automotive stamping bundles","price": 2200, "fe": 97.90, "c": 0.05, "si": 0.22, "mn": 0.43, "p": 0.02, "s": 0.01, "cu": 0.10, "ni": 0.03, "sio2": 1.30, "al2o3": 0.00, "cao": 0.00, "mgo": 0.00, "feo": 0.10, "metallic_yield": 92.0 },
-    {"name": "Shredded scrap",             "price": 1500, "fe": 91.50, "c": 0.28, "si": 0.38, "mn": 0.60, "p": 0.03, "s": 0.04, "cu": 0.30, "ni": 0.08, "sio2": 1.30, "al2o3": 0.00, "cao": 0.00, "mgo": 0.00, "feo": 0.22, "metallic_yield": 91.0 },
-    {"name": "HMS (Heavy Melting Steel)",  "price": 1900, "fe": 92.00, "c": 0.33, "si": 0.28, "mn": 1.00, "p": 0.04, "s": 0.05, "cu": 0.20, "ni": 0.15, "sio2": 1.30, "al2o3": 0.00, "cao": 0.00, "mgo": 0.00, "feo": 0.25, "metallic_yield": 88.0 },
-]
-
-materials: list[Material] = [Material(**m) for m in _raw_materials]
-
-constraints = Constraints(
-    loading_basket_capacity=120,
-    target_yield=90.0,
-    c_min=1.5,
-    si_min=0.80,
-    mn_min=0.60,
-    p_max=0.09,
-    s_max=0.09,
-    cu_max=0.70,
-    ni_max=0.80,
-)
-
 
 def _val(var: p.LpVariable) -> float:
     v = var.value()
@@ -52,10 +27,10 @@ def optimize_charged_materials(materials: list[Material], constraints: Constrain
     prob += p.lpSum(x[m.name] for m in materials) == constraints.loading_basket_capacity
 
     # Mass of liquid steel (applying metallic yield)
-    liquid_steel = p.lpSum(m.metallic_yield * x[m.name] for m in materials)
+    liquid_steel = p.lpSum((m.metallic_yield/100) * x[m.name] for m in materials)
 
     # Minimum metallic yield
-    prob += liquid_steel >= (constraints.loading_basket_capacity * constraints.target_yield)
+    prob += liquid_steel >= (constraints.loading_basket_capacity * (constraints.target_yield/100))
 
     # Chemical composition constraints
     prob += p.lpSum(m.c  * x[m.name] for m in materials) >= constraints.c_min  * liquid_steel
@@ -72,7 +47,7 @@ def optimize_charged_materials(materials: list[Material], constraints: Constrain
 
     vals = {m.name: _val(x[m.name]) for m in materials}
 
-    liquid_steel_ton = sum(m.metallic_yield * vals[m.name] for m in materials if vals[m.name] > 0.0)
+    liquid_steel_ton = sum((m.metallic_yield/100) * vals[m.name] for m in materials if vals[m.name] > 0.0)
 
     c_final  = sum(m.c  * vals[m.name] for m in materials) / liquid_steel_ton
     si_final = sum(m.si * vals[m.name] for m in materials) / liquid_steel_ton
@@ -87,7 +62,7 @@ def optimize_charged_materials(materials: list[Material], constraints: Constrain
     return OptimizationResult(
         scrap_mix={m.name: vals[m.name] for m in materials if vals[m.name] > 0.0},
         liquid_steel=liquid_steel_ton,
-        metallic_yield=liquid_steel_ton / constraints.loading_basket_capacity,
+        metallic_yield=(liquid_steel_ton / constraints.loading_basket_capacity)*100,
         composition=SteelComposition(
             c=c_final,
             si=si_final,
@@ -104,21 +79,21 @@ def optimize_charged_materials(materials: list[Material], constraints: Constrain
     )
 
 
-if __name__ == "__main__":
-    result = optimize_charged_materials(materials, constraints)
+# if __name__ == "__main__":
+#     result = optimize_charged_materials(materials, constraints)
 
-    print("\n--- Scrap mix ---")
-    for name, kg in result.scrap_mix.items():
-        print(f"  {name}: {kg:.2f} ton")
+#     print("\n--- Scrap mix ---")
+#     for name, kg in result.scrap_mix.items():
+#         print(f"  {name}: {kg:.2f} ton")
 
-    print("\n--- Mass balance ---")
-    print(f"  Liquid steel: {result.liquid_steel:.2f} ton")
-    print(f"  Metallic yield: {result.metallic_yield * 100:.1f}%")
+#     print("\n--- Mass balance ---")
+#     print(f"  Liquid steel: {result.liquid_steel:.2f} ton")
+#     print(f"  Metallic yield: {result.metallic_yield * 100:.1f}%")
 
-    print("\n--- Composition ---")
-    for element, value in result.composition.model_dump().items():
-        print(f"  {element}: {value:.2f}%")
+#     print("\n--- Composition ---")
+#     for element, value in result.composition.model_dump().items():
+#         print(f"  {element}: {value:.2f}%")
 
-    print("\n--- Cost ---")
-    print(f"  Total:   US$ {result.cost.total:.2f}")
-    print(f"  Per ton: US$ {result.cost.per_ton:.2f}")
+#     print("\n--- Cost ---")
+#     print(f"  Total:   US$ {result.cost.total:.2f}")
+#     print(f"  Per ton: US$ {result.cost.per_ton:.2f}")
