@@ -1,4 +1,6 @@
 import { apiRequest, ApiResponse } from "@/api/client";
+import { defaultMaterials } from "@/data/materials";
+import { OptimizationFormData } from "@/schemas/optimization-form";
 import { Constraints, Material } from "@/types/domain";
 
 
@@ -7,6 +9,29 @@ export type OptimizationRequest = {
     materials: Material[];
     constraints: Constraints;
 };
+
+export function buildOptimizationRequest(
+    data: OptimizationFormData
+): OptimizationRequest {
+    const materials: Material[] = data.materialBounds.map((bound) => {
+        const catalogMaterial = defaultMaterials.find((m) => m.name === bound.name);
+
+        if (!catalogMaterial) {
+            throw new Error(`Material "${bound.name}" not found in catalog.`);
+        }
+
+        return {
+            ...catalogMaterial,
+            min_pct: bound.min_pct,
+            max_pct: bound.max_pct,
+        };
+    });
+
+    return {
+        materials,
+        constraints: data.constraints,
+    };
+}
 
 export type SteelComposition = {
     c: number;

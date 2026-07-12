@@ -3,7 +3,7 @@ import { CompositionValue } from "./composition-value";
 import { OptimizationResult } from "@/api/optimize";
 import { formatElementPercent } from "@/lib/format";
 
-type OptimizationPanelState =
+export type OptimizationPanelState =
     | { status: "idle" }
     | { status: "loading" }
     | { status: "success"; result: OptimizationResult }

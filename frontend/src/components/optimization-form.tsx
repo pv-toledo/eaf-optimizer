@@ -7,10 +7,11 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { Button } from "./ui/button";
 import { ConstraintsSection } from "./constraints-section";
 import { MaterialBoundsList } from "./material-bounds-list";
-import { OptimizationResultPanel } from "./optimization-result-panel";
+import { OptimizationPanelState, OptimizationResultPanel } from "./optimization-result-panel";
 import { Loader2 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { formatElementPercent, formatOxidePercent } from "@/lib/format";
+import { buildOptimizationRequest, optimize } from "@/api/optimize";
 
 export function OptimizationForm() {
   const form = useForm<OptimizationFormInput, unknown, OptimizationFormData>({
@@ -47,21 +48,37 @@ export function OptimizationForm() {
 
   const { isSubmitting, isValid } = form.formState
 
-  const onSubmit = async (data: any) => {
+  const [panelState, setPanelState] = useState<OptimizationPanelState>({ status: "idle" });
+
+  const onSubmit = async (data: OptimizationFormData) => {
+    setPanelState({ status: "loading" });
+
+    let request;
     try {
-      // Simula a chamada da API (ex: 2 segundos)
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // Sucesso
-      console.log("Resposta da API simulada com sucesso!", data);
-
+      request = buildOptimizationRequest(data);
     } catch (error) {
-      // Tratamento de erro simulado
-      console.error("Erro na API", error);
+      console.error(error);
+      setPanelState({
+        status: "error",
+        detail: "Internal error while preparing the request.",
+      });
+      return;
     }
-  };
 
-  console.log(form.formState.errors)
+    const response = await optimize(request);
+
+    if (response.ok) {
+      setPanelState({ status: "success", result: response.data });
+      return;
+    }
+
+    if (response.reason === "validation_error") {
+      setPanelState({ status: "infeasible", detail: response.detail });
+      return;
+    }
+
+    setPanelState({ status: "error", detail: response.detail });
+  };
 
   return (
     <form
@@ -82,31 +99,7 @@ export function OptimizationForm() {
       </div>
 
       <aside className="lg:sticky lg:top-8 lg:self-start">
-        <OptimizationResultPanel state={{
-          status: "success",
-          result: {
-            scrap_mix: {
-              "Sucata pesada": 45.2,
-              "Estamparia": 30.8,
-              "Ferro-gusa": 12.5,
-            },
-            liquid_steel: 82.3,
-            metallic_yield: 91.4,
-            composition: {
-              c: 0.18,
-              si: 0.02,
-              mn: 0.35,
-              p: 0.021,
-              s: 0.018,
-              cu: 0.09,
-              ni: 0.04,
-            },
-            cost: {
-              total: 187450,
-              per_ton: 2277.5,
-            },
-          },
-        }} />
+        <OptimizationResultPanel state={panelState} />
       </aside>
 
 
