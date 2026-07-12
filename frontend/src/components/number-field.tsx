@@ -35,7 +35,7 @@ export function NumberField({ control, name, label }: NumberFieldProps) {
                         aria-invalid={fieldState.invalid}
                         className="text-xs md:text-sm"
                     />
-                    <div className="min-h-[2rem]">
+                    <div className="min-h-8">
                         {fieldState.error && (
                             <FieldError errors={[fieldState.error]} className="text-xs" />
                         )}

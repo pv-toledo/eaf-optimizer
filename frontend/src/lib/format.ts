@@ -16,3 +16,7 @@ export function formatCurrency(value: number): string {
 export function formatTons(value: number): string {
   return `${value.toFixed(2)} ton`;
 }
+
+export function formatChargePercent(value: number): string {
+  return `${value.toFixed(1)}%`;
+}

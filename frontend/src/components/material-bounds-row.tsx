@@ -24,7 +24,7 @@ export function MaterialBoundsRow({ control, index, material }: MaterialBoundsRo
                             R$ {material.price}/ton · Yield: {material.metallic_yield}%
                         </p>
                     </div>
-                    <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-data-[panel-open]:rotate-180" />
+                    <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-data-panel-open:rotate-180" />
                 </CollapsibleTrigger>
                 <div className="flex shrink-0 gap-2">
                     <div className="w-40">
