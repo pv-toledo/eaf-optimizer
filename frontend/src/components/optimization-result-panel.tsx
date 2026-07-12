@@ -85,7 +85,7 @@ export function OptimizationResultPanel({
           </p>
         </div>
         <div className="rounded-md bg-muted p-3">
-          <p className="text-xs text-muted-foreground">Cost per ton</p>
+          <p className="text-xs text-muted-foreground">Cost per ton of steel</p>
           <p className="text-lg font-medium">
             {formatCurrency(result.cost.per_ton)}
           </p>
@@ -93,7 +93,7 @@ export function OptimizationResultPanel({
       </div>
 
       <p className="mb-2 text-xs font-medium text-muted-foreground">
-        Charge ({result.liquid_steel.toFixed(1)} tons of liquid steel)
+        {result.liquid_steel.toFixed(1)} tons of liquid steel · Yield: {formatChargePercent(result.metallic_yield)}
       </p>
       <div className="mb-4 flex flex-col gap-1.5">
         {scrapEntries.map(([name, tons]) => (
