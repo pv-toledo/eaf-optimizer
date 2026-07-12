@@ -13,3 +13,7 @@ app.add_middleware(
 )
 
 app.include_router(optimization_router)
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
