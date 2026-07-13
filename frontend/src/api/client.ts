@@ -39,7 +39,7 @@ export async function apiRequest<TResponse>(
             body: body !== undefined ? JSON.stringify(body) : undefined,
         });
     } catch {
-        return { ok: false, reason: "error", detail: "Falha de conexão com o servidor." };
+        return { ok: false, reason: "error", detail: "Failed to connect to the server." };
     }
 
     if (response.status === 422) {
