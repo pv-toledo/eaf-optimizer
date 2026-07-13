@@ -20,10 +20,10 @@ export function OptimizationResultPanel({
       <div className="rounded-xl border bg-card p-6 text-center">
         <FlaskConical className="mx-auto mb-3 h-6 w-6 text-muted-foreground" />
         <p className="text-sm font-medium">
-          Ajuste as restrições e otimize a carga
+          Adjust constraints and optimize the charge
         </p>
         <p className="mt-1 text-xs text-muted-foreground">
-          O resultado com o custo e a mistura de sucata aparece aqui.
+          The cost and scrap mix results will appear here.
         </p>
       </div>
     );
@@ -33,7 +33,7 @@ export function OptimizationResultPanel({
     return (
       <div className="rounded-xl border bg-card p-4">
         <p className="mb-3 text-sm text-muted-foreground">
-          Otimizando a carga…
+          Optimizing the charge…
         </p>
         <div className="mb-4 grid grid-cols-2 gap-2">
           <div className="h-14 animate-pulse rounded-md bg-muted" />
@@ -61,8 +61,8 @@ export function OptimizationResultPanel({
           <div>
             <p className="text-sm font-medium text-destructive">
               {state.status === "infeasible"
-                ? "Sem mistura viável com essas restrições"
-                : "Não foi possível calcular"}
+                ? "No feasible mix found with current constraints"
+                : "Unable to calculate"}
             </p>
             <p className="mt-1 text-xs text-muted-foreground">{state.detail}</p>
           </div>

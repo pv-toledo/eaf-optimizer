@@ -5,7 +5,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collap
 import { ChevronDown } from "lucide-react"
 import { NumberField } from "./number-field"
 import { CompositionValue } from "./composition-value"
-import { formatElementPercent, formatOxidePercent } from "@/lib/format"
+import { formatCurrency, formatElementPercent, formatOxidePercent } from "@/lib/format"
 
 type MaterialBoundsRowProps = {
     control: Control<OptimizationFormInput>
@@ -21,7 +21,7 @@ export function MaterialBoundsRow({ control, index, material }: MaterialBoundsRo
                     <div>
                         <p className="text-sm font-medium md:text-base">{material.name}</p>
                         <p className="text-xs text-muted-foreground">
-                            R$ {material.price}/ton · Yield: {material.metallic_yield}%
+                            {formatCurrency(material.price)}/ton · Yield: {material.metallic_yield}%
                         </p>
                     </div>
                     <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-data-panel-open:rotate-180" />
