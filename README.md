@@ -4,7 +4,7 @@
 
 🔗 **Live demo:** [eaf-optimizer.vercel.app](https://eaf-optimizer.vercel.app)
 
-![EAF Optimizer — optimization result](docs/eaf-optimizer-screenshot.jpg)
+![EAF Optimizer — optimization result](frontend/docs/eaf-optimizer-screenshot.jpg)
 
 ---
 
