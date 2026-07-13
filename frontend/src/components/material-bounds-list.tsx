@@ -9,17 +9,22 @@ type MaterialBoundsListProps = {
     materials: Material[]
 }
 
-export function MaterialBoundsList({control, fields, materials}: MaterialBoundsListProps) {
+export function MaterialBoundsList({ control, fields, materials }: MaterialBoundsListProps) {
     return (
-        <div className="flex flex-col gap-2">
-            {fields.map((fieldItem, index) => (
-                <MaterialBoundsRow
-                    key={fieldItem.id}
-                    control={control}
-                    index={index}
-                    material={materials[index]}
-                />
-            ))}
+        <div className="rounded-xl border bg-card p-4">
+            <p className="mb-3 text-sm font-medium text-muted-foreground">Available materials (demo)</p>
+            <div className="flex flex-col gap-2">
+
+                {fields.map((fieldItem, index) => (
+                    <MaterialBoundsRow
+                        key={fieldItem.id}
+                        control={control}
+                        index={index}
+                        material={materials[index]}
+                    />
+                ))}
+            </div>
         </div>
+
     )
 }
