@@ -85,6 +85,14 @@ export function OptimizationForm() {
     setPanelState({ status: "error", detail: response.detail });
   };
 
+  const submitButtonRef = useRef<HTMLButtonElement>(null);
+
+  const handleIdleClick = () => {
+    if (typeof window !== "undefined" && window.innerWidth < 1024) {
+      submitButtonRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
   return (
     <form
       onSubmit={form.handleSubmit(onSubmit)}
@@ -93,18 +101,25 @@ export function OptimizationForm() {
       <div className="order-2 flex flex-col gap-6 lg:order-1">
         <ConstraintsSection control={form.control} />
         <MaterialBoundsList control={form.control} fields={fields} materials={defaultMaterials} />
-        <Button type="submit" disabled={isSubmitting || !isValid} className="w-full sm:w-auto hover:cursor-pointer">{isSubmitting ? (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" />
-            Optimizing...
-          </>
-        ) : (
-          "Optimize charge"
-        )}</Button>
+        <Button
+          type="submit"
+          ref={submitButtonRef}
+          disabled={isSubmitting || !isValid}
+          className="w-full sm:w-auto hover:cursor-pointer"
+        >
+          {isSubmitting ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Optimizing...
+            </>
+          ) : (
+            "Optimize charge"
+          )}
+        </Button>
       </div>
 
       <aside ref={resultPanelRef} className="order-1 lg:order-2 lg:sticky lg:top-8 lg:self-start">
-        <OptimizationResultPanel state={panelState} />
+        <OptimizationResultPanel state={panelState} onIdleClick={handleIdleClick} />
       </aside>
     </form>
   )

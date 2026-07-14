@@ -12,8 +12,10 @@ export type OptimizationPanelState =
 
 export function OptimizationResultPanel({
   state,
+  onIdleClick,
 }: {
   state: OptimizationPanelState;
+  onIdleClick?: () => void;
 }) {
   if (state.status === "idle") {
     return (
@@ -23,7 +25,15 @@ export function OptimizationResultPanel({
           Defaults are pre-filled for a typical heat
         </p>
         <p className="mt-1 text-xs text-muted-foreground">
-          Click "Optimize charge" to see the cost-optimal mix — no changes needed to get started.
+          Click{" "}
+          <button
+            type="button"
+            onClick={onIdleClick}
+            className="cursor-pointer font-medium text-foreground underline-offset-2 hover:underline lg:cursor-default lg:pointer-events-none lg:hover:no-underline"
+          >
+            "Optimize charge"
+          </button>{" "}
+          to see the cost-optimal mix — no changes needed to get started.
         </p>
       </div>
     );
