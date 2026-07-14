@@ -9,7 +9,7 @@ import { ConstraintsSection } from "./constraints-section";
 import { MaterialBoundsList } from "./material-bounds-list";
 import { OptimizationPanelState, OptimizationResultPanel } from "./optimization-result-panel";
 import { Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { formatElementPercent, formatOxidePercent } from "@/lib/format";
 import { buildOptimizationRequest, optimize } from "@/api/optimize";
 
@@ -49,9 +49,14 @@ export function OptimizationForm() {
   const { isSubmitting, isValid } = form.formState
 
   const [panelState, setPanelState] = useState<OptimizationPanelState>({ status: "idle" });
+  const resultPanelRef = useRef<HTMLElement>(null);
 
   const onSubmit = async (data: OptimizationFormData) => {
     setPanelState({ status: "loading" });
+
+    if (typeof window !== "undefined" && window.innerWidth < 1024) {
+      resultPanelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
 
     let request;
     try {
@@ -85,7 +90,7 @@ export function OptimizationForm() {
       onSubmit={form.handleSubmit(onSubmit)}
       className="mx-auto grid max-w-6xl grid-cols-1 gap-6 lg:grid-cols-[1fr_400px]"
     >
-      <div className="flex flex-col gap-6">
+      <div className="order-2 flex flex-col gap-6 lg:order-1">
         <ConstraintsSection control={form.control} />
         <MaterialBoundsList control={form.control} fields={fields} materials={defaultMaterials} />
         <Button type="submit" disabled={isSubmitting || !isValid} className="w-full sm:w-auto hover:cursor-pointer">{isSubmitting ? (
@@ -98,11 +103,9 @@ export function OptimizationForm() {
         )}</Button>
       </div>
 
-      <aside className="lg:sticky lg:top-8 lg:self-start">
+      <aside ref={resultPanelRef} className="order-1 lg:order-2 lg:sticky lg:top-8 lg:self-start">
         <OptimizationResultPanel state={panelState} />
       </aside>
-
-
     </form>
   )
 }
