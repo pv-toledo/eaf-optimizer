@@ -20,10 +20,10 @@ export function OptimizationResultPanel({
       <div className="rounded-xl border bg-card p-6 text-center">
         <FlaskConical className="mx-auto mb-3 h-6 w-6 text-muted-foreground" />
         <p className="text-sm font-medium">
-          Adjust constraints and optimize the charge
+          Defaults are pre-filled for a typical heat
         </p>
         <p className="mt-1 text-xs text-muted-foreground">
-          The cost and scrap mix results will appear here.
+          Click "Optimize charge" to see the cost-optimal mix — no changes needed to get started.
         </p>
       </div>
     );
