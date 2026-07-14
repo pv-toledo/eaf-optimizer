@@ -20,19 +20,19 @@ export function OptimizationForm() {
     defaultValues: {
       constraints: {
         loading_basket_capacity: formatOxidePercent(120),
-        target_yield: formatOxidePercent(85),
-        c_min: formatElementPercent(0.550),
+        target_yield: formatOxidePercent(88),       // Puxa materiais de alta qualidade
+        c_min: formatElementPercent(0.400),         // Mantém a necessidade de C
         si_min: formatElementPercent(0.150),
-        mn_min: formatElementPercent(0.400),
-        p_max: formatElementPercent(0.050),
-        s_max: formatElementPercent(0.060),
-        cu_max: formatElementPercent(0.300),
-        ni_max: formatElementPercent(0.150),
+        mn_min: formatElementPercent(0.600),        // O "chamariz" para o HMS
+        p_max: formatElementPercent(0.045),         // Levemente mais rígido
+        s_max: formatElementPercent(0.050),         // Freia a sucata obsoleta
+        cu_max: formatElementPercent(0.250),        // Freia a sucata obsoleta
+        ni_max: formatElementPercent(0.100),        // "Mata" o excesso de cavaco
       },
       materialBounds: defaultMaterials.map((m) => ({
         name: m.name,
         min_pct: m.min_pct ?? 0,
-        max_pct: m.max_pct ?? 100,
+        max_pct: m.max_pct ?? 100, // Deixa livre
       }))
     },
   });
