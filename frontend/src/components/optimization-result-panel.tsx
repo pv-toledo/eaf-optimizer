@@ -77,7 +77,7 @@ export function OptimizationResultPanel({
 
   return (
     <div className="rounded-xl border bg-card p-4">
-      <div className="mb-4 grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-2 text-xs sm:grid-cols-4">
         <div className="rounded-md bg-muted p-3">
           <p className="text-xs text-muted-foreground">Total cost</p>
           <p className="text-lg font-medium">
