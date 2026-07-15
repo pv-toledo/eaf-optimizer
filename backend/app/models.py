@@ -17,13 +17,15 @@ list_material = Table(
 
 class Material(Base):
     __tablename__="material"
-    __table_args__= (UniqueConstraint("user_id", "name", name="uq_material_user_name"))
+    __table_args__= (UniqueConstraint("user_id", "name", name="uq_material_user_name"),)
 
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    user_id: Mapped[uuid.UUID] = mapped_column(index=True)
     name: Mapped[str]
     price: Mapped[Decimal] = mapped_column(Numeric(10,2))
     metallic_yield: Mapped[float]
 
+    fe_pct: Mapped[float]
     c_pct: Mapped[float]
     si_pct: Mapped[float]
     mn_pct: Mapped[float]
@@ -38,17 +40,17 @@ class Material(Base):
     mgo_pct: Mapped[float]
     feo_pct: Mapped[float]
 
-    created_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now)
+    created_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     lists: Mapped[list["MaterialList"]] = relationship(secondary=list_material, back_populates="materials")
 
-    class MaterialList(Base):
-        __tablename__="material_list"
-        __table_args__=(UniqueConstraint("user_id", "name", name="uq_material_list_user_name"))
+class MaterialList(Base):
+    __tablename__="material_list"
+    __table_args__=(UniqueConstraint("user_id", "name", name="uq_material_list_user_name"),)
 
-        id: Mapped[Uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
-        user_id: Mapped[Uuid.UUID] = mapped_column(index=True)
-        name: Mapped[str]
-        created_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now)
+    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    user_id: Mapped[uuid.UUID] = mapped_column(index=True)
+    name: Mapped[str]
+    created_at: Mapped[DateTime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
-        materials: Mapped[list["Material"]] = relationship(secondary=list_material, back_populates="lists")
+    materials: Mapped[list["Material"]] = relationship(secondary=list_material, back_populates="lists")
